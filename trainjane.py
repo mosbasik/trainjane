@@ -86,11 +86,19 @@ def update():
     # unzip and parse the csv file
     spamreader = csv.reader(bz2.open(BytesIO(response.content), mode='rt'), delimiter=',')
 
+    # delete all rows from the Item table
+    # models.Item.query.delete()
+    db.session.query(Item).delete()
+
     # loop over every row in the csv file
     for i, row in enumerate(spamreader):
 
-        # skip the first row (it's just headers)
+        # skip the first row (it's column headers)
         if i == 0:
+            continue
+
+        # skip any rows that aren't marketable
+        if row[header_index['marketGroupID']] == 'None':
             continue
 
         # store the row as an Item in the database
