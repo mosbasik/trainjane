@@ -1,5 +1,6 @@
 venv
 __pycache__
+db_repository
 *.bz2
 *.db
 *.pyc
